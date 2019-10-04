@@ -1,0 +1,23 @@
+const db = require('../db');
+const _ = require('lodash');
+const services = require('../services/index');
+
+
+
+
+let authentication = {
+    authenicate_user: async function (req, res, next) {
+        try {
+            let token = services.authentication.getTokenFromHeader(req.headers.authorization);
+            let decoded = await services.authentication.decodeToken(token);
+            req.locals = {};
+            req.locals = decoded.user;
+            next();
+        } catch (err) {
+            res.status(401).send('Invalid credentials');
+        }
+    }
+
+}
+
+module.exports = authentication; 
