@@ -3,6 +3,7 @@ const routes = express.Router();
 let authenicate = require('../middleware/authenticate')
 //Module imports
 let users = require('./users');
+let points = require('./points');
 let authentication = require('./authentication');
 const UsersController = require ('../controllers/users.controller');
 
@@ -33,7 +34,9 @@ routes.post('/public/register', validate({body: user_schema}),UsersController.cr
 
 routes.use('/authentication', authentication);
 
+//Authenticated routes below
 //Mounting routes
 routes.use('/users', authenicate.authenicate_user, users);
+routes.use('/points', authenicate.authenicate_user, points)
 
 module.exports = routes;
