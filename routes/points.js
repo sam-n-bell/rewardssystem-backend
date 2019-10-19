@@ -31,4 +31,7 @@ let transfer_schema = {
 points.post('/give', validate({body: transfer_schema}),PointsController.transferPoints);
 
 
+points.get('/history', PointsController.getTransferHistoryForUser)
+
+
 module.exports = points;
