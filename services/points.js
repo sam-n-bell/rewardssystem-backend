@@ -15,7 +15,7 @@ let points = {
 
     },
     getUserTransferHistory: async function(user_id, from_date, to_date) {
-        let transers = await db.any(`select 
+        let transfers = await db.any(`select 
                         u.first_name,
                         u.last_name,
                         t.amount,
@@ -25,6 +25,7 @@ let points = {
                         where (t.from_id = $1 or t.to_user = $1) 
                         and (t.date_created::DATE >= $2 and t.date_created::DATE <= $3)
                         order by t.date_created desc;`)
+        return transfers;
     }
 }
 
