@@ -15,8 +15,10 @@ let points = {
 
     },
     getUserTransferHistory: async function(user_id, from_date, to_date) {
-        let transfers = await db.any(`select 
-                        to_json(u.*) as to_user,
+        let transfers = await db.any(`
+                        select 
+                        json_build_object('first_name', u.first_name, 'last_name', u.last_name) as to_user,
+                        json_build_object('first_name', u2.first_name, 'last_name', u2.last_name) as from_user,
                         CASE WHEN t.from_user = $1 THEN 'giving' ELSE 'receiving' END AS direction,
                         t.amount,
                         t.date_created
@@ -25,7 +27,8 @@ let points = {
                         left join users u2 on u2.user_id = t.from_user
                         where (t.from_user = $1 or t.to_user = $1) 
                         and (t.date_created::DATE >= $2 and t.date_created::DATE <= $3)
-                        order by t.date_created desc;`, [user_id, from_date, to_date])
+                        order by t.date_created desc;`, 
+                        [user_id, from_date, to_date])
         return transfers;
     }
 }
