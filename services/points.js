@@ -24,7 +24,7 @@ let points = {
                         left join users u on u.user_id = t.to_user
                         where (t.from_user = $1 or t.to_user = $1) 
                         and (t.date_created::DATE >= $2 and t.date_created::DATE <= $3)
-                        order by t.date_created desc;`)
+                        order by t.date_created desc;`, [user_id, from_date, to_date])
         return transfers;
     }
 }
