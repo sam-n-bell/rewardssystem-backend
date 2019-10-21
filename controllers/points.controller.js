@@ -59,11 +59,12 @@ let PointsController = {
         try {
             if (req.locals.points_received < req.body.amount_of_points) {
                 res.status(400).send({message: 'Not enough points'})
-            }
-            if (req.body.amount_of_points % 10000 !== 0) {
+            } else if (req.body.amount_of_points % 10000 !== 0) {
                 res.status(400).send({message: 'Invalid number of points'})
+            } else {
+                await services.points.redeemPoints(req.locals.user_id, req.body.amount_of_points)
+                res.send('ok');
             }
-            await services.points.redeemPoints(req.locals.user_id, req.body.amount_of_points)
         } catch (err) {
             res.status(500).send({message: err.message});
         }

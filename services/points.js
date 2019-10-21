@@ -8,12 +8,16 @@ let points = {
        await db.query(`CALL transfer_points($1, $2, $3);`, [from_user, to_user, amount])
        await db.none(`insert into transfers (from_user, to_user, amount) VALUES ($1, $2, $3)`, [from_user, to_user, amount])
     },
-    redeemPoints: async function() {
-        await db.query(`CALL reset_points_for_all_users()`)
+    redeemPoints: async function(user_id, amount_of_points) {
+        console.log('redeem points')
+        await db.none(`INSERT into point_redemptions
+                        (user_id, amount_of_points)
+                        VALUES ($1, $2)`, [user_id, amount_of_points]);
+        await db.none(`UPDATE users SET points_received = (points_received - $1) where user_id = $2`, [amount_of_points, user_id])
+
     },
     endMonth: async function() {
-
-
+        await db.query(`CALL reset_points_for_all_users;`)
     },
     getUserTransferHistory: async function(user_id, from_date, to_date) {
         let transfers = await db.any(`

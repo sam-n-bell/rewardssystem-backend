@@ -11,12 +11,11 @@ let authentication = {
             let token = services.authentication.getTokenFromHeader(req.headers.authorization);
             let decoded = await services.authentication.decodeToken(token);
             req.locals = {};
-            //req.locals = decoded.user;
             let user = await services.users.getUserByEmail(decoded.user.email)
             req.locals = user;
             next();
         } catch (err) {
-            res.status(401).send('Invalid credentials');
+            res.status(401).send({message: 'Invalid credentials'});
         }
     }
 
