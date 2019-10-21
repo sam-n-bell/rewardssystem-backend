@@ -42,6 +42,31 @@ let PointsController = {
         } catch (err) {
             res.status(500).send({message: err.message});
         }
+    },
+    endCurrentMonthResetPoints: async function (req, res) {
+        try {
+            if (req.locals.administrator) {
+                await services.points.endMonth();
+                res.send('ok');
+            } else {
+                res.status(401).send({message: 'You do not have permission'})
+            }
+        } catch (err) {
+            res.status(500).send({message: err.message});
+        }
+    },
+    redeemPoints: async function (req, res) {
+        try {
+            if (req.locals.points_received < req.body.amount_of_points) {
+                res.status(400).send({message: 'Not enough points'})
+            }
+            if (req.body.amount_of_points % 10000 !== 0) {
+                res.status(400).send({message: 'Invalid number of points'})
+            }
+            await services.points.redeemPoints(req.locals.user_id, req.body.amount_of_points)
+        } catch (err) {
+            res.status(500).send({message: err.message});
+        }
     }
     
 }

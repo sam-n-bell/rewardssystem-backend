@@ -28,10 +28,22 @@ let transfer_schema = {
     }
 }
 
+let redeem_schema = {
+    type: 'object',
+    required: ['amount_of_points'],
+    properties: {
+        amount_of_points: {
+            type: 'number'
+        }
+    }
+}
 points.post('/give', validate({body: transfer_schema}),PointsController.transferPoints);
 
+points.post('/redeem', validate({body: redeem_schema}), PointsController.redeemPoints)
 
 points.get('/history', PointsController.getTransferHistoryForUser)
+
+points.patch('/reset', PointsController.endCurrentMonthResetPoints)
 
 
 module.exports = points;

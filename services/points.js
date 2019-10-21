@@ -9,9 +9,10 @@ let points = {
        await db.none(`insert into transfers (from_user, to_user, amount) VALUES ($1, $2, $3)`, [from_user, to_user, amount])
     },
     redeemPoints: async function() {
-        
+        await db.query(`CALL reset_points_for_all_users()`)
     },
     endMonth: async function() {
+
 
     },
     getUserTransferHistory: async function(user_id, from_date, to_date) {
