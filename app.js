@@ -5,8 +5,11 @@ let app = express();
 let routes = require('./routes/index');
 var bodyParser = require('body-parser')
 require('dotenv').config();
+require("babel-core/register");
+require("babel-polyfill");
 require('babel-register');
 
+require('./scheduled_jobs/scheduled')
 
 app.use(cors());
 
