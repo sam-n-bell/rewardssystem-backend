@@ -5,6 +5,10 @@ const _ = require('lodash')
 
 
 let users = {
+    getAllUsers: async function () {
+        let users = db.any(`select user_id, first_name, last_name, email, administrator, date_created from users`);
+        return users;
+    },
     getUserByEmail: async function (email) {
         let user = await db.oneOrNone(`select * from users where email = $1`, [email]);
         return user;
@@ -13,15 +17,15 @@ let users = {
          let user = await db.oneOrNone(`select * from users where user_id = $1`, [user_id]);
          return user;
     },
-    createUser: async function (first_name, last_name, email, password) {
+    createUser: async function (first_name, last_name, email, password, administrator=false) {
         let hashed_password = await bcrypt.hash(password, 10);
         // let unhashed = await bcrypt.compare(password ,hashed_password);
         let user = await db.one(`
         INSERT INTO USERS 
-        (first_name, last_name, email, password) 
-        VALUES ($1, $2, $3, $4) 
+        (first_name, last_name, email, password, administrator) 
+        VALUES ($1, $2, $3, $4, $5) 
         returning 
-        user_id, email, first_name, last_name`, [first_name, last_name, email, hashed_password]);
+        user_id, email, first_name, last_name`, [first_name, last_name, email, hashed_password, administrator]);
         return user;
     },
     checkPassword: async function(provided_password, actual_password) {

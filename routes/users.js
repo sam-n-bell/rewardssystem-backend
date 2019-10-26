@@ -34,9 +34,7 @@ var user_schema = {
     }
 }
 
-users.get('/',  (req, res) => {
-    res.send('useres')
-})//UsersController.getAllUsers);
+users.get('/', UsersController.getAllUsers);
 
 users.post('/register', validate({body: user_schema}),UsersController.createRegularUser);
 
