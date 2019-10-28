@@ -9,6 +9,10 @@ let users = {
         let users = db.any(`select user_id, first_name, last_name, email, administrator, date_created from users`);
         return users;
     },
+    getAllUsersCompleteInfo: async function () {
+        let users = db.any(`select user_id, first_name, last_name, email, administrator, date_created, available_points, points_received from users`);
+        return users;
+    },
     getUserByEmail: async function (email) {
         let user = await db.oneOrNone(`select * from users where email = $1`, [email]);
         return user;
