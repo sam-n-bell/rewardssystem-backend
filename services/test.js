@@ -3,15 +3,15 @@ const _ = require('lodash')
 const users = require('./users')
 const crypto = require('crypto')
 
-const first_names = ['jadzia', 'michael', 'nathan', 'coty', 'josh', 'theresa']
-const last_names = ['paredes', 'opela', 'dax', 'bell', 'mueller', 'morrow']
+const first_names = ['jadzia', 'michael', 'nathan', 'coty', 'josh', 'theresa', 'rose', 'elizabeth']
+const last_names = ['paredes', 'opela', 'dax', 'bell', 'mueller', 'morrow', 'wolfe', 'jones']
 
 let test = {
     
     generateTestUsers: async function (num_new_users, num_new_admins) {
         for (let i = 0; i < num_new_users; i++) {
-            let fname = first_names[Math.floor(Math.random() * 6)]
-            let lname = last_names[Math.floor(Math.random() * 6)]
+            let fname = first_names[Math.floor(Math.random() * first_names.length)]
+            let lname = last_names[Math.floor(Math.random() * last_names.length)]
             await users.createUser(fname, lname, crypto.randomBytes(5).toString('hex') + '@test.com', 'password')
         }
         for (let i = 0; i < num_new_admins; i++) {
