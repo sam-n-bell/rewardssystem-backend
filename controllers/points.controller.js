@@ -35,7 +35,7 @@ let PointsController = {
                 from_date = moment().format('YYYY-MM-DD')
             }
             if (_.isNil((to_date)) ||  to_date === "") {
-                to_date = moment().add(30, 'days').format('YYYY-MM-DD')
+                to_date = moment().subtract(30, 'days').format('YYYY-MM-DD')
             }
             let transfers = await services.points.getUserTransferHistory(req.locals.user_id, from_date, to_date)
             res.send(transfers)
