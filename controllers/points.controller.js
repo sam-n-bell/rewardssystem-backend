@@ -31,12 +31,13 @@ let PointsController = {
         try {
             let from_date = req.query.fromDate;
             let to_date = req.query.toDate;
-            if (_.isNil((from_date)) ||  from_date === "") {
-                from_date = moment().format('YYYY-MM-DD')
-            }
             if (_.isNil((to_date)) ||  to_date === "") {
-                to_date = moment().subtract(30, 'days').format('YYYY-MM-DD')
+                to_date = moment().format('YYYY-MM-DD')
             }
+            if (_.isNil((from_date)) ||  from_date === "") {
+                from_date = moment().subtract(30, 'days').format('YYYY-MM-DD')
+            }
+            console.log(`getting points for ${req.locals.user_id} from ${from_date} to ${to_date}`)
             let transfers = await services.points.getUserTransferHistory(req.locals.user_id, from_date, to_date)
             res.send(transfers)
         } catch (err) {

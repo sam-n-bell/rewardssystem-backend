@@ -21,10 +21,11 @@ let AuthenticationController = {
         try {
             let token = services.authentication.getTokenFromHeader(req.headers.authorization);
             let decoded = await services.authentication.decodeToken(token);
-            let user = decoded.user;
+            let user = await services.users.getUserByEmail(decoded.user.email);
             if (!_.isNil(user.password)) {
                 delete user.password;
             }
+            console.log(user)
             res.json(user);
         } catch (err) {
             res.status(500).send({ message: err.message });
