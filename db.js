@@ -15,6 +15,7 @@ const cn = {
     password: process.env.PASSWORD,
     ssl: process.env.SSL
 }
+
 const db = pgp(cn);
 let result = db.any(`select now()`)
 
