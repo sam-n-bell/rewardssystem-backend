@@ -5,6 +5,7 @@ let authenicate = require('../middleware/authenticate')
 let users = require('./users');
 let points = require('./points');
 let test = require('./test');
+let reports = require('./reports');
 let authentication = require('./authentication');
 const UsersController = require ('../controllers/users.controller');
 
@@ -40,5 +41,5 @@ routes.use('/authentication', authentication);
 routes.use('/users', authenicate.authenicate_user, users);
 routes.use('/points', authenicate.authenicate_user, points)
 routes.use('/test', authenicate.authenicate_user, test);
-
+routes.use('/reports', authenicate.authenicate_admin, reports)
 module.exports = routes;

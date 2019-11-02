@@ -17,6 +17,21 @@ let authentication = {
         } catch (err) {
             res.status(401).send({message: 'Invalid credentials'});
         }
+    },
+    authenicate_admin: async function (req, res, next) {
+        try {
+            let token = services.authentication.getTokenFromHeader(req.headers.authorization);
+            let decoded = await services.authentication.decodeToken(token);
+            req.locals = {};
+            let user = await services.users.getUserByEmail(decoded.user.email)
+            if (!user.administrator) {
+                throw Error()
+            }
+            req.locals = user;
+            next();
+        } catch (err) {
+            res.status(401).send({message: 'Invalid credentials'});
+        }
     }
 
 }
