@@ -25,7 +25,6 @@ let AuthenticationController = {
             if (!_.isNil(user.password)) {
                 delete user.password;
             }
-            console.log(user)
             res.json(user);
         } catch (err) {
             res.status(500).send({ message: err.message });

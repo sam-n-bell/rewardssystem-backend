@@ -5,8 +5,16 @@ const crypto = require('crypto')
 
 let reports = {
     
-    aggregateReport: async function () {
-       
+    aggregateReport: async function (num_months) {
+       let data = await db.many(`select 
+                                    t.month,
+                                    t.name,
+                                    t.received,
+                                    t.given
+                                 from transfers_view t
+                                 where t.month::DATE >= date_trunc('month', current_date - INTERVAL '$1 months')::DATE
+                                 order by t.month desc, t.received desc, t.name asc`, [num_months])
+        return data;
     },
     pointUsageReport: async function() {
         let data = await db.any(`select

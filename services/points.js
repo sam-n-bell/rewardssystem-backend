@@ -9,7 +9,6 @@ let points = {
        await db.none(`insert into transfers (from_user, to_user, amount) VALUES ($1, $2, $3)`, [from_user, to_user, amount])
     },
     redeemPoints: async function(user_id, amount_of_points) {
-        console.log('redeem points')
         await db.none(`INSERT into point_redemptions
                         (user_id, amount_of_points)
                         VALUES ($1, $2)`, [user_id, amount_of_points]);
