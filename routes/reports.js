@@ -5,7 +5,7 @@ const ReportsController = require ('../controllers/reports.controller');
 
 
 reports.get('/aggregate', ReportsController.getAggregateReport)
-reports.get('/usage', ReportsController.getPointUsageReport)
+reports.get('/point-utilization', ReportsController.getPointUsageReport)
 reports.get('/redemptions', ReportsController.getRedemptionsReport)
 
 
