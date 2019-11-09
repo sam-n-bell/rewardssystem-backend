@@ -24,17 +24,17 @@ let reports = {
                     order by u.available_points desc;`)
         return data;
     },
-    redemptionsReport: async function() {
+    redemptionsReport: async function(num_months) {
         let data = await db.any(`select
                         u.first_name || ' ' || u.last_name as name,
                         count(pr.point_redemption_id) as num_redemptions,
                         sum(pr.amount_of_points) as sum_points_redeemed,
-                        date_trunc('month', pr.date_created)::DATE as date
+                        date_trunc('month', pr.date_created)::DATE as month
                     from point_redemptions pr
                     left join users u on u.user_id = pr.user_id
-                    where pr.date_created >= current_date - INTERVAL '2 months'
+                    where pr.date_created >= date_trunc('month', current_date - INTERVAL '$1 months')::DATE
                     group by name, date
-                    order by date desc, name asc;`)
+                    order by date desc, name asc;`, [num_months])
         return data
     }
 }

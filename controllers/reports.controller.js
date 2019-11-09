@@ -26,7 +26,15 @@ let ReportsController = {
     },
     getRedemptionsReport: async function (req, res) {
         try {
-            let query = await services.reports.redemptionsReport()
+            let num_months = 2
+            if (!_.isNil(req.query.numMonths) && req.query.numMonths !== '') {
+                try {
+                    num_months = Number(req.query.numMonths)
+                } catch (err) {
+                    num_months = 2
+                }
+            }
+            let query = await services.reports.redemptionsReport(num_months)
             res.json(query)
         } catch (err) {
             res.status(500).send({message: err.message});
