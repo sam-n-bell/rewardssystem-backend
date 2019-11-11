@@ -25,6 +25,7 @@ let reports = {
         return data;
     },
     redemptionsReport: async function(num_months) {
+        console.log(`getting data for ${num_months} months`)
         let data = await db.any(`select
                         u.first_name || ' ' || u.last_name as name,
                         count(pr.point_redemption_id) as num_redemptions,
