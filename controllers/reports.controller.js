@@ -37,7 +37,6 @@ let ReportsController = {
             let query = await services.reports.redemptionsReport(num_months)
             res.json(query)
         } catch (err) {
-            console.log(err.message)
             res.status(500).send({message: err.message});
         }
     }

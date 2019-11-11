@@ -25,37 +25,16 @@ let reports = {
         return data;
     },
     redemptionsReport: async function(num_months) {
-        console.log(`getting data for ${num_months} months`)
-        let d = await db.one(`select date_trunc('month', current_date - INTERVAL '$1 months')::DATE`, [num_months])
-        console.log(`d = `)
-        console.log(d)
         let data = await db.any(`select
                         u.first_name || ' ' || u.last_name as name,
                         count(pr.point_redemption_id) as num_redemptions,
                         sum(pr.amount_of_points) as sum_points_redeemed,
-                        date_trunc('month', pr.date_created)::DATE as month
+                        to_char(date_trunc('month', pr.date_created)::DATE, 'YYYY-MM-DD') as month
                     from point_redemptions pr
                     left join users u on u.user_id = pr.user_id
                     where date_trunc('month', pr.date_created)::DATE >= date_trunc('month', current_date - INTERVAL '$1 months')::DATE
                     group by name, month
                     order by month desc, name asc;`, [num_months])
-
-        let data2 = await db.any(
-                    `WITH redemptions AS (
-                        SELECT pr.*, date_trunc('month', pr.date_created)::DATE as month
-                        from point_redemptions pr
-                    )
-                    select
-                        u.first_name || ' ' || u.last_name as name,
-                        count(r.point_redemption_id) as num_redemptions,
-                        sum(r.amount_of_points) as sum_points_redeemed,
-                        r.month
-                    from redemptions r
-                    left join users u on u.user_id = r.user_id
-                    where r.month >= date_trunc('month', current_date - INTERVAL '$1 months')::DATE
-                    group by name, month
-                    order by month desc, name asc;`, [num_months])
-        console.log(data)
         return data
     }
 }
