@@ -27,7 +27,8 @@ let reports = {
     redemptionsReport: async function(num_months) {
         console.log(`getting data for ${num_months} months`)
         let d = await db.one(`select date_trunc('month', current_date - INTERVAL '$1 months')::DATE`, [num_months])
-        console.log(`d = ${d}`)
+        console.log(`d = `)
+        console.log(d)
         let data = await db.any(`select
                         u.first_name || ' ' || u.last_name as name,
                         count(pr.point_redemption_id) as num_redemptions,
