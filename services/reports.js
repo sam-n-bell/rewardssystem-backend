@@ -56,7 +56,7 @@ let reports = {
                     group by name, month
                     order by month desc, name asc;`, [num_months])
         console.log(data)
-        return data2
+        return data
     }
 }
 module.exports = reports; 
