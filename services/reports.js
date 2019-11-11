@@ -55,7 +55,7 @@ let reports = {
                     where r.month >= date_trunc('month', current_date - INTERVAL '$1 months')::DATE
                     group by name, month
                     order by month desc, name asc;`, [num_months])
-        console.log(data2)
+        console.log(data)
         return data2
     }
 }
