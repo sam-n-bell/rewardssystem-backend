@@ -29,7 +29,7 @@ let reports = {
                         u.first_name || ' ' || u.last_name as name,
                         count(pr.point_redemption_id) as num_redemptions,
                         sum(pr.amount_of_points) as sum_points_redeemed,
-                        to_char(date_trunc('month', pr.date_created)::DATE, 'YYYY-MM-DD') as month
+                        date_trunc('month', pr.date_created)::DATE as month
                     from point_redemptions pr
                     left join users u on u.user_id = pr.user_id
                     where date_trunc('month', pr.date_created)::DATE >= date_trunc('month', current_date - INTERVAL '$1 months')::DATE
