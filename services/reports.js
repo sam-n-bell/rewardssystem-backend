@@ -39,7 +39,24 @@ let reports = {
                     where date_trunc('month', pr.date_created)::DATE >= date_trunc('month', current_date - INTERVAL '$1 months')::DATE
                     group by name, month
                     order by month desc, name asc;`, [num_months])
-        return data
+
+        let data2 = await db.any(
+                    `WITH redemptions AS (
+                        SELECT pr.*, date_trunc('month', pr.date_created)::DATE as month
+                        from point_redemptions pr
+                    )
+                    select
+                        u.first_name || ' ' || u.last_name as name,
+                        count(r.point_redemption_id) as num_redemptions,
+                        sum(r.amount_of_points) as sum_points_redeemed,
+                        r.month
+                    from redemptions r
+                    left join users u on u.user_id = r.user_id
+                    where r.month >= date_trunc('month', current_date - INTERVAL '$1 months')::DATE
+                    group by name, month
+                    order by month desc, name asc;`, [num_months])
+        console.log(data2)
+        return data2
     }
 }
 module.exports = reports; 
