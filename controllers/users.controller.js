@@ -6,12 +6,8 @@ const services = require('../services/index');
 let UsersController = {
     getAllUsers: async function (req, res) {
         try {
-                if (req.locals.administrator) {
-                    let users = await services.users.getAllUsers();
-                    res.json(users);
-                } else {
-                    res.status(401).send();
-                }
+                let users = await services.users.getAllUsers();
+                res.json(users);
             } catch (err) {
                 res.status(500).send({message: err.message});
             }
