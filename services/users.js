@@ -6,11 +6,11 @@ const _ = require('lodash')
 
 let users = {
     getAllUsers: async function () {
-        let users = db.any(`select user_id, first_name, last_name, email from users`);
+        let users = await db.any(`select user_id, first_name, last_name, email from users`);
         return users;
     },
-    getAllUsersCompleteInfo: async function () {
-        let users = db.any(`select user_id, first_name, last_name, email, administrator, date_created, available_points, points_received from users`);
+    getAllUsersAdmin: async function () {
+        let users = await db.any(`select user_id, first_name, last_name, email, administrator, date_created, available_points, points_received from users`);
         return users;
     },
     getUserByEmail: async function (email) {

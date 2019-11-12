@@ -12,6 +12,18 @@ let UsersController = {
                 res.status(500).send({message: err.message});
             }
     },
+    getAllUsersAdmin: async function (req, res) {
+        try {
+                if (!req.locals.administrator) {
+                    res.status(401).send()
+                } else {
+                    let users = await services.users.getAllUsersAdmin();
+                    res.json(users);
+                }
+            } catch (err) {
+                res.status(500).send({message: err.message});
+            }
+    },
     //user_name, email, password, administrator
     createRegularUser: async function (req, res) {
         try {

@@ -35,6 +35,7 @@ var user_schema = {
 }
 
 users.get('/list', UsersController.getAllUsers);
+users.get('/list/admin', UsersController.getAllUsersAdmin)
 
 users.post('/register', validate({body: user_schema}),UsersController.createRegularUser);
 
