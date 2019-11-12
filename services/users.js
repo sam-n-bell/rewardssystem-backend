@@ -6,7 +6,7 @@ const _ = require('lodash')
 
 let users = {
     getAllUsers: async function () {
-        let users = db.any(`select user_id, first_name, last_name, email, administrator, date_created from users`);
+        let users = db.any(`select user_id, first_name, last_name, email from users`);
         return users;
     },
     getAllUsersCompleteInfo: async function () {
