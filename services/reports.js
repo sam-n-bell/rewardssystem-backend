@@ -9,9 +9,11 @@ let reports = {
        let data = await db.many(`select 
                                     t.month,
                                     t.name,
+                                    u.email,
                                     t.received,
                                     t.given
                                  from transfers_view t
+                                 left join users u on u.user_id = t.user_id
                                  where t.month::DATE >= date_trunc('month', current_date - INTERVAL '$1 months')::DATE
                                  order by t.month desc, t.received desc, t.name asc`, [num_months])
         return data;
