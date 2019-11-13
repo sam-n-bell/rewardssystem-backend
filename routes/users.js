@@ -39,5 +39,8 @@ users.get('/list/admin', UsersController.getAllUsersAdmin)
 
 users.post('/register', validate({body: user_schema}),UsersController.createRegularUser);
 
+users.put('/:user_id/admin', UsersController.makeUserAdmin)
+users.put('/points/reset', UsersController.resetPointsForUsers)
+
 
 module.exports = users;

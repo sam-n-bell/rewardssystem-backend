@@ -29,12 +29,40 @@ let UsersController = {
         try {
                 let body = req.body;
                 let user = await services.users.getUserByEmail(body.email);
-                if (!_.isNil(user)) throw Error('Email already on file');
-                let new_user = await services.users.createUser(body.first_name, body.last_name, body.email, body.password);
-                res.status(201).send('created');
+                if (!_.isNil(user)) {
+                    res.status(400).send('Email already on file')
+                } else {
+                    res.status(201).send('created');
+                }
+                // throw Error('Email already on file');
+                //let new_user = await services.users.createUser(body.first_name, body.last_name, body.email, body.password);
             } catch (err) {
                 res.status(500).send({message: err.message});
             }
+    },
+    makeUserAdmin: async function (req, res) {
+        try {
+            if (req.locals.administrator) {
+                await services.users.makeUserAdmin(req.params.user_id)
+                res.send('ok')
+            } else {
+                res.status(401).send()
+            }
+        } catch (err) {
+                res.status(500).send({message: err.message});
+        }
+    },
+    resetPointsForUsers: async function (req, res) {
+        try {
+            if (req.locals.administrator) {
+                await services.users.resetPointsForUsers()
+                res.send('ok')
+            } else {
+                res.status(401).send()
+            }
+        } catch (err) {
+                res.status(500).send({message: err.message});
+        }
     }
 }
 

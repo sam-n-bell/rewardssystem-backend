@@ -43,7 +43,16 @@ points.post('/redeem', validate({body: redeem_schema}), PointsController.redeemP
 
 points.get('/history', PointsController.getTransferHistoryForUser)
 
-points.patch('/reset', PointsController.endCurrentMonthResetPoints)
+let reset_schema = {
+    type: 'object',
+    required: ['amount_of_points'],
+    properties: {
+        amount_of_points: {
+            type: 'number'
+        }
+    }
+}
+points.put('/reset', validate({body: reset_schema}), PointsController.endCurrentMonthResetPoints)
 
 
 module.exports = points;

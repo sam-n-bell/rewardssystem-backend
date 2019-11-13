@@ -45,8 +45,12 @@ let PointsController = {
     },
     endCurrentMonthResetPoints: async function (req, res) {
         try {
+            let amount = req.body.amount_of_points
+            if (amount < 0) {
+                amount = 1000
+            }
             if (req.locals.administrator) {
-                await services.points.endMonth();
+                await services.points.endMonth(amount);
                 res.send('ok');
             } else {
                 res.status(401).send({message: 'You do not have permission'})

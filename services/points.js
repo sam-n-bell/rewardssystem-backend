@@ -15,8 +15,8 @@ let points = {
         await db.none(`UPDATE users SET points_received = (points_received - $1) where user_id = $2`, [amount_of_points, user_id])
 
     },
-    endMonth: async function(points=1000) {
-        await db.query(`CALL reset_points_for_all_users($1);`, [points])
+    endMonth: async function(amount) {
+        await db.query(`CALL reset_points_for_all_users($1);`, [amount])
     },
     getUserTransferHistory: async function(user_id, from_date, to_date) {
         let transfers = await db.any(`

@@ -36,6 +36,9 @@ let users = {
         let correct = await bcrypt.compare(provided_password ,actual_password);
         if (!correct) throw Error('Invalid login credentials');
         return true;
+    },
+    makeUserAdmin: async function (user_id) {
+        await db.none(`updates users set administrator = True where user_id = $1`, [user_id])
     }
 }
 
