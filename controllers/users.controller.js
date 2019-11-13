@@ -51,18 +51,6 @@ let UsersController = {
         } catch (err) {
                 res.status(500).send({message: err.message});
         }
-    },
-    resetPointsForUsers: async function (req, res) {
-        try {
-            if (req.locals.administrator) {
-                await services.users.resetPointsForUsers()
-                res.send('ok')
-            } else {
-                res.status(401).send()
-            }
-        } catch (err) {
-                res.status(500).send({message: err.message});
-        }
     }
 }
 
