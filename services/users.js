@@ -38,7 +38,7 @@ let users = {
         return true;
     },
     makeUserAdmin: async function (user_id) {
-        await db.none(`updates users set administrator = True where user_id = $1`, [user_id])
+        await db.none(`update users set administrator = True where user_id = $1`, [user_id])
     }
 }
 
