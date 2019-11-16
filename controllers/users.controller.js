@@ -32,10 +32,9 @@ let UsersController = {
                 if (!_.isNil(user)) {
                     res.status(400).send('Email already on file')
                 } else {
+                    let new_user = await services.users.createUser(body.first_name, body.last_name, body.email, body.password, false);
                     res.status(201).send('created');
                 }
-                // throw Error('Email already on file');
-                //let new_user = await services.users.createUser(body.first_name, body.last_name, body.email, body.password);
             } catch (err) {
                 res.status(500).send({message: err.message});
             }

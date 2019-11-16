@@ -21,7 +21,7 @@ let users = {
          let user = await db.oneOrNone(`select * from users where user_id = $1`, [user_id]);
          return user;
     },
-    createUser: async function (first_name, last_name, email, password, administrator=false) {
+    createUser: async function (first_name, last_name, email, password, administrator) {
         let hashed_password = await bcrypt.hash(password, 10);
         // let unhashed = await bcrypt.compare(password ,hashed_password);
         let user = await db.one(`
